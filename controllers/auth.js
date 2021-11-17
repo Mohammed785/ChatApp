@@ -1,7 +1,7 @@
 const User = require("../models/user");
 const { StatusCodes } = require("http-status-codes");
 const CustomError = require("../errors/index");
-const { createTokenUser, createJWT } = require("../utils/jwt");
+const { createTokenUser, attachCookieToResponse } = require("../utils/jwt");
 
 const login = async (req, res) => {
     const { email, password } = req.body;
@@ -12,13 +12,12 @@ const login = async (req, res) => {
     if (!user) {
         throw new CustomError.NotAuthenticated("Wrong Credentials");
     }
-    if (!await user.comparePasswords(password)) {
+    if (!(await user.comparePasswords(password))) {
         throw new CustomError.NotAuthenticated("Wrong Credentials");
     }
     const tokenUser = createTokenUser(user);
-    const token = createJWT({payload:tokenUser});
-    req.headers.authorization = token;
-    return res.status(StatusCodes.ACCEPTED).json({ ...tokenUser });
+    attachCookieToResponse({ res, user: tokenUser });
+    res.status(StatusCodes.ACCEPTED).json({ ...tokenUser });
 };
 
 const register = async (req, res) => {
@@ -32,8 +31,10 @@ const register = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-    // check if user is not logged and send different msg
-    req.headers.authorization = null;
+    res.cookie('token','logout',{
+        httpOnly:true,
+        expires:new Date(Date.now()+1000)
+    })
     res.status(StatusCodes.OK).json({ msg: "User Logged Out Successfully" });
 };
 

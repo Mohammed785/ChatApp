@@ -8,7 +8,7 @@ const { connect } = require("mongoose");
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
-
+const cookieParser = require('cookie-parser')
 //routes
 const authRoute = require("./routes/auth");
 
@@ -19,10 +19,11 @@ const notFound = async (req, res) => {
     res.status(404).json({ msg: "Route Not Found Check Url" });
 };
 app.use(express.json());
+app.use(cookieParser(process.env.JWT_SECRET))
 app.use('/api/v1/auth',authRoute);
 app.use(authMiddleware);
-app.use(errorHandlerMiddleware);
 app.use(notFound);
+app.use(errorHandlerMiddleware);
 
 io.on("connection", (socket) => {
     console.log("Welcome");
