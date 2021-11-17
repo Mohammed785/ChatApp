@@ -1,8 +1,9 @@
-const CustomError = require('./custom_error');
-const NotAuthenticated = require('./not_authenticated');
-
+const CustomError = require("./custom_error");
+const NotAuthenticated = require("./not_authenticated");
+const BadRequest = require("./bad_request");
 
 module.exports = {
-    CustomError,
-    NotAuthenticated
-}
+  CustomError,
+  NotAuthenticated,
+  BadRequest,
+};
