@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>CodePen - Sign up / Login Form</title>
+    <link rel="stylesheet" type="text/css" href="./css/auth.css" />
+</head>
+
+<body>
+    <!-- partial:index.partial.html -->
+    <div class="main">
+        <input type="checkbox" id="chk" aria-hidden="true" />
+
+        <div class="signup">
+            
+            <div class="alert">
+            </div>
+            <form id="register-form" method="post">
+                <label for="chk" aria-hidden="true">Sign up</label>
+                <input type="text" name="username" placeholder="Username" required="true" />
+                <input type="email" name="email" placeholder="Email" required="true" />
+                <input type="password" name="password" placeholder="Password" required="true" />
+                <button>Sign up</button>
+            </form>
+        </div>
+
+        <div class="login">
+            <form id="login-form" method="post">
+                <label for="chk" aria-hidden="true">Login</label>
+                <input type="email" name="email" placeholder="Email" required="true" />
+                <input type="password" name="password" placeholder="Password" required="true" />
+                <button>Login</button>
+            </form>
+        </div>
+    </div>
+    <!-- partial -->
+    <script src="./js/jquery.min.js"></script>
+    <script>
+        const loginForm = document.getElementById("login-form");
+        const registerForm = document.getElementById("register-form");
+        const formSubmit = (e, login = true) => {
+            const email = e.target.elements.email;
+            const password = e.target.elements.password;
+            const username = (!login) ? e.target.elements.username : null
+            const url = (login) ? "/api/v1/auth/login" : "/api/v1/auth/register";
+            const data = (login) ? JSON.stringify({
+                     email: email.value, password: password.value 
+                    }) : JSON.stringify({
+                     username: username.value, email: email.value, password: password.value 
+                    })
+            const success = (data)=>{
+                if(login){
+                    window.location.href = '/'
+                }else{
+                    console.log('success');
+                }
+            }
+            $.ajax({
+                method: "POST",
+                contentType: "application/json",
+                url: url,
+                data:data,
+                success:(data)=>{
+                    success(data)
+                },
+                error:(error)=>{
+                    email.classList.add('danger')
+                    password.classList.add('danger')
+                    username.classList.add('danger')
+                }
+            })
+        }
+        loginForm.addEventListener('submit',(e)=>{
+            e.preventDefault();
+            formSubmit(e)
+        })
+        registerForm.addEventListener('submit',(e)=>{
+            e.preventDefault();
+            formSubmit(e,false)
+        })
+    </script>
+</body>
+
+</html>
