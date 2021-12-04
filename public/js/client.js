@@ -3,6 +3,7 @@ const form = document.getElementById("msg-form");
 const searchForm = document.getElementById('search-form');
 const chatArea = document.querySelector(".chat-area-main");
 const conversionArea = document.getElementById("friends-chats");
+const logoutBtn = document.getElementById('logout');
 var friendsChats = null;
 var currentChat = null;
 var userInfo = null;
@@ -161,7 +162,18 @@ searchForm.addEventListener('submit',e=>{
         },
     });
 })
-
+logoutBtn.addEventListener('click',e=>{
+    $.ajax({
+        method: "POST",
+        url: `/api/v1/auth/logout`,
+        success: () => {
+            window.location.href = 'auth.html'
+        },
+        error: (error) => {
+            console.error(error);
+        },
+    });
+})
 const smoothScroll = ()=>{
     $("#chat-cont").animate(
         {scrollTop: $("#chat-cont")[0].scrollHeight,},
