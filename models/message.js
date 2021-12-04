@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const MessageSchema = mongoose.Schema(
     {
@@ -11,14 +11,13 @@ const MessageSchema = mongoose.Schema(
             required: [true, "Anonymous Users Cant Send Messages"],
             ref: "User",
         },
-        chat:{
-            type:mongoose.Types.ObjectId,
-            required:true,
-            ref:'Chat'
-        }
+        chat: {
+            type: mongoose.Types.ObjectId,
+            required: true,
+            ref: "Chat",
+        },
     },
     { timestamps: true }
 );
 
-
-module.exports = mongoose.model('Message',MessageSchema)
+module.exports = mongoose.model("Message", MessageSchema);

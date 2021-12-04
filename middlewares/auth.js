@@ -6,15 +6,14 @@ const authMiddleware = async (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (authHeader && authHeader.startsWith("Bearer")) {
         token = authHeader.split(" ")[1];
-    }
-    else if (req.signedCookies.token) {
+    } else if (req.signedCookies.token) {
         token = req.signedCookies.token;
     }
     if (!token) {
         throw new CustomError.NotAuthenticated("Please Login First");
     }
     try {
-        const payload = isTokenValid({token});
+        const payload = isTokenValid({ token });
         req.user = {
             userId: payload.userId,
             username: payload.username,
@@ -22,7 +21,7 @@ const authMiddleware = async (req, res, next) => {
         };
         next();
     } catch (error) {
-        console.log(error)
+        console.log(error);
         throw new CustomError.NotAuthenticated("Authentication Invalid");
     }
 };

@@ -14,5 +14,5 @@ const jsonMessage = (message, user) => {
 
 module.exports = {
     jsonChat,
-    jsonMessage
-}
+    jsonMessage,
+};

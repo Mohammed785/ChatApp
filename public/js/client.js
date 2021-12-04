@@ -1,9 +1,9 @@
 const socket = io();
 const form = document.getElementById("msg-form");
-const searchForm = document.getElementById('search-form');
+const searchForm = document.getElementById("search-form");
 const chatArea = document.querySelector(".chat-area-main");
 const conversionArea = document.getElementById("friends-chats");
-const logoutBtn = document.getElementById('logout');
+const logoutBtn = document.getElementById("logout");
 var friendsChats = null;
 var currentChat = null;
 var userInfo = null;
@@ -27,13 +27,15 @@ socket.on("check", () => {
 socket.on("message", (data) => {
     const msg = createMessage(data);
     chatArea.innerHTML += msg;
-    smoothScroll()
+    smoothScroll();
 });
 
 const createMessage = (data) => {
-    let style = data?.sender?.email !== userInfo.email ? "chat-msg" : "chat-msg owner";
-    if(data?.userEmail){
-        style = data.userEmail !== userInfo.email ? "chat-msg" : "chat-msg owner";
+    let style =
+        data?.sender?.email !== userInfo.email ? "chat-msg" : "chat-msg owner";
+    if (data?.userEmail) {
+        style =
+            data.userEmail !== userInfo.email ? "chat-msg" : "chat-msg owner";
     }
     return `<div class="${style}" data-id=${data.id}>
      <div class="chat-msg-profile">
@@ -127,7 +129,7 @@ const loadChatMsgs = (chatId) => {
         method: "GET",
         url: `/api/v1/message/get/chat-messages/${chatId}/`,
         success: (data) => {
-            handelChatMsgs(data)
+            handelChatMsgs(data);
         },
         error: (err) => {
             console.error(err);
@@ -135,24 +137,26 @@ const loadChatMsgs = (chatId) => {
     });
 };
 
-const handelChatMsgs = (msgs)=>{
-    const data = msgs.messages.map((chat)=>{
-        return createMessage(chat)
-    }).join("")
+const handelChatMsgs = (msgs) => {
+    const data = msgs.messages
+        .map((chat) => {
+            return createMessage(chat);
+        })
+        .join("");
     chatArea.innerHTML = data;
-    chatArea.scrollTop = chatArea.scrollHeight
-    smoothScroll()
-}
+    chatArea.scrollTop = chatArea.scrollHeight;
+    smoothScroll();
+};
 
-searchForm.addEventListener('submit',e=>{
+searchForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    const userEmail = e.target.elements.email.value
+    const userEmail = e.target.elements.email.value;
     $.ajax({
         method: "POST",
         url: `/api/v1/chat/create`,
         contentType: "application/json",
-        data:JSON.stringify({
-            friendEmail:userEmail
+        data: JSON.stringify({
+            friendEmail: userEmail,
         }),
         success: (data) => {
             console.log(data);
@@ -161,23 +165,22 @@ searchForm.addEventListener('submit',e=>{
             console.error(error);
         },
     });
-})
-logoutBtn.addEventListener('click',e=>{
+});
+logoutBtn.addEventListener("click", (e) => {
     $.ajax({
         method: "POST",
         url: `/api/v1/auth/logout`,
         success: () => {
-            window.location.href = 'auth.html'
+            window.location.href = "auth.html";
         },
         error: (error) => {
             console.error(error);
         },
     });
-})
-const smoothScroll = ()=>{
+});
+const smoothScroll = () => {
     $("#chat-cont").animate(
-        {scrollTop: $("#chat-cont")[0].scrollHeight,},
+        { scrollTop: $("#chat-cont")[0].scrollHeight },
         1000
     );
-}
-
+};
