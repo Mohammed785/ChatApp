@@ -33,7 +33,6 @@ app.use(notFound);
 app.use(errorHandlerMiddleware);
 
 io.on("connection", (socket) => {
-    console.log("Welcome");
     socket.emit("check", () => {
         console.log("checking");
     });
