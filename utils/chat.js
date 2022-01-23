@@ -9,6 +9,7 @@ const jsonMessage = (message, user) => {
         createdAt: message.createdAt,
         username: user.name,
         userEmail: user.email,
+        chat:message.chat
     };
 };
 

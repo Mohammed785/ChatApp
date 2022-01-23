@@ -1,5 +1,4 @@
 const Message = require("../models/message");
-const Chat = require("../models/chat");
 const { jsonMessage } = require("../utils/chat");
 const { StatusCodes } = require("http-status-codes");
 
@@ -23,9 +22,7 @@ const getChatMessages = async (req, res) => {
 const deleteMessage = async (req, res) => {
     const msgId = req.params.id;
     const msg = await Message.findByIdAndDelete(msgId);
-    return res
-        .status(StatusCodes.OK)
-        .json({ info: "Message Deleted", message: msg });
+    return res.status(StatusCodes.OK).json({ info: "Message Deleted", message: msg });
 };
 
 module.exports = {

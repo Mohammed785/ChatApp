@@ -16,7 +16,7 @@ const authMiddleware = async (req, res, next) => {
         const payload = isTokenValid({ token });
         req.user = {
             userId: payload.userId,
-            username: payload.username,
+            username: payload.name,
             email: payload.email,
         };
         next();

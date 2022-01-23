@@ -779,3 +779,10 @@ html {
   width: 30px;
   border-radius: 5px;
 }
+
+.del-x{
+  position: absolute;
+  right: 3px;
+  text-decoration: none;
+  color: var(--theme-color);
+}
