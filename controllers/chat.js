@@ -32,7 +32,7 @@ const getUserChats = async (req, res) => {
 };
 const deleteChat = async (req,res) =>{
     const chat = await Chats.findByIdAndDelete(req.params.id);
-    return res.status(StatusCodes.OK).json({msg:"Deleted"})
+    return res.status(StatusCodes.OK).json({msg:"Deleted",chat})
 }
 module.exports = {
     createChat,
