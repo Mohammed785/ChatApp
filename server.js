@@ -17,12 +17,18 @@ const userRoute = require("./routes/user");
 // middleware
 const authMiddleware = require("./middlewares/auth");
 const errorHandlerMiddleware = require("./middlewares/error_handler");
+const { join } = require("path");
 const notFound = async (req, res) => {
     res.status(404).json({ msg: "Route Not Found Check Url" });
 };
+app.get("/auth",async(req,res)=>{
+    return res.sendFile(join(__dirname,"static","auth.html"))
+})
+app.get("/",async(req,res)=>{
+    return res.sendFile(join(__dirname,"static","index.html"))
+})
 app.use(express.json());
-app.set("view engine", "ejs");
-app.use(express.static("./public"));
+app.use(express.static("static"));
 app.use(cookieParser(process.env.JWT_SECRET));
 app.use("/api/v1/auth", authRoute);
 app.use(authMiddleware);

@@ -1,6 +1,6 @@
 # Chat App
 
-![introduction](./public/gif/Animation.gif)
+![introduction](./public/Animation.gif)
 
 You can start chatting with your by typing his email in search bar and search for it it will start chat automatically
 

@@ -123,7 +123,7 @@ const getUserInfo = () => {
         },
         error: (error) => {
             console.error(error);
-            window.location.href = "/auth.html";
+            window.location.href = "/auth";
         },
     });
 };
